@@ -3,11 +3,11 @@ Section: [[Uploading video]]
 The built-in video transcoding function in the LBRY desktop application starts the
 FFMPEG utility process with the following parameters:
 
-```batch
-ffmpeg -i "$(path_to_original_file).ext" -y -c:s copy -c:d copy ^
-          -c:v libx264 -crf 24 -preset faster -pix_fmt yuv420p ^
-          -vf "scale=if(gte(iw\,ih)\,min(1920\,iw)\,-2):if(lt(iw\,ih)\,min(1920\,ih)\,-2)" ^
-          -maxrate 5500K -bufsize 5000K -movflags +faststart ^
+```bash
+ffmpeg -i "$(path_to_original_file).ext" -y -c:s copy -c:d copy \
+          -c:v libx264 -crf 24 -preset faster -pix_fmt yuv420p \
+          -vf "scale=if(gte(iw\,ih)\,min(1920\,iw)\,-2):if(lt(iw\,ih)\,min(1920\,ih)\,-2)" \
+          -maxrate 5500K -bufsize 5000K -movflags +faststart \
           -c:a aac -b:a 160k "$(path_to_original_file)_fixed.mp4"
 ```
 
@@ -29,10 +29,10 @@ The meanings of the passed parameters:
 Option for transcoding video with a width of 1920 pixels, with an aspect ratio of 16:9,
 with increased bitrate and quality, with better compression:
 
-```batch
-ffmpeg -i "$(path_to_original_file).ext" -y -c:s copy -c:d copy ^
-          -c:v libx264 -crf 17 -preset slower -pix_fmt yuv420p ^
-          -maxrate 8M -bufsize 8M -movflags +faststart ^
+```bash
+ffmpeg -i "$(path_to_original_file).ext" -y -c:s copy -c:d copy \
+          -c:v libx264 -crf 17 -preset slower -pix_fmt yuv420p \
+          -maxrate 8M -bufsize 8M -movflags +faststart \
           -c:a aac -b:a 160k "$(path_to_original_file) (Transcoded).mp4"
 ```
 
@@ -44,7 +44,7 @@ of 17 is sufficient to produce a video with an indistinguishable quality
 
 A sample can be cut from the source file like this:
 
-```batch
+```bash
 ffmpeg -i input.ext -ss 00:01:00 -to 00:02:00 -c copy sample.ext
 ```
 
