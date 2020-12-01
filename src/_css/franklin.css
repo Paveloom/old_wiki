@@ -1,5 +1,33 @@
 /* DEFAULT FONT AND LAYOUT */
 
+@font-face {
+    font-family: Inconsolata;
+    src: url("/assets/fonts/Inconsolata-Regular.ttf") format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: Inconsolata;
+    src: url("/assets/fonts/Inconsolata-Medium.ttf") format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: Inconsolata;
+    src: url("/assets/fonts/Inconsolata-SemiBold.ttf") format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: Inconsolata;
+    src: url("/assets/fonts/Inconsolata-Bold.ttf") format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
 html {
   font-family: Helvetica, Arial, sans-serif;
   font-size: 17px;
@@ -81,7 +109,7 @@ html {
 /* TITLES */
 
 .franklin-content h1 {
-  font-size: 24px;
+  font-size: 28px;
 }
 
 .franklin-content h2 {
@@ -98,14 +126,13 @@ html {
 
 .franklin-content h1 {
   padding-bottom: 0.5em;
-  border-bottom: 3px double lightgrey;
   margin-top: 1.5em;
   margin-bottom: 1em;
+  line-height: 1em;
 }
 
 .franklin-content h2 {
   padding-bottom: 0.3em;
-  border-bottom: 1px solid lightgrey;
   margin-top: 2em;
   margin-bottom: 1em;
 }
@@ -287,6 +314,9 @@ code {
   padding: 0.1em 0.2em;
   border-radius: 2px;
   font-size: 90%;
+  font-family: Inconsolata;
+  font-weight: 500;
+  word-break: break-all;
 }
 
 /* .franklin-content code {
@@ -296,19 +326,17 @@ code {
   font-size: 90%;
 } */
 
-.hljs {
+/* .hljs {
   font-size: 90%;
   line-height: 1.35em;
   border-radius: 10px;
-}
+} */
 
-.hljs-meta,
-.hljs-metas,
-.hljs-metap {
+/* .hljs-meta, .hljs-metas, .hljs-metap {
   font-weight: bold;
-}
+} */
 
-.hljs-meta {
+/* .hljs-meta {
   color: rgb(25, 179, 51);
 }
 
@@ -318,7 +346,7 @@ code {
 
 .hljs-metap {
   color: rgb(51, 131, 231);
-}
+} */
 
 /* BOXES */
 

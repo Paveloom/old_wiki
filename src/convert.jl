@@ -32,17 +32,38 @@ end
 for (root, dirs, files) in walkdir(md)
     for file in files
 
+        name = chop(file, tail=3)
         path = joinpath(root, file)
         content = read(path, String)
+
+        # Add the header
+        content = """
+        # $(name)
+
+        """ * content
 
         # Replace hyperlinks with actual links
         content = replace(content, r"\[\[[\w+\s*]+\]\]" => hyperlink)
 
         if file == start_page_name_with_ext
+            # Add the metadata
+            content = """
+            @def title = "Pensieve"
+            @def authors = "Pavel Sobolev"
+
+            """ * content
+
             open(joinpath(@__DIR__, "index.md"), "w") do io
                 print(io, content)
             end
         else
+            # Add the metadata
+            content = """
+            @def title = "$(name)"
+            @def authors = "Pavel Sobolev"
+
+            """ * content
+
             open(joinpath(@__DIR__, format(file)), "w") do io
                 print(io, content)
             end
