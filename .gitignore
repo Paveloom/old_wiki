@@ -9,4 +9,8 @@ src/__site/
 
 # Generated pages
 src/pages
-src/index.md
+*.md
+
+# Standard pages
+!src/404.md
+!src/config.md

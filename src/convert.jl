@@ -2,29 +2,25 @@
 # vault to a format that Franklin understands
 
 md = joinpath(@__DIR__, "md")
-pages = joinpath(@__DIR__, "pages")
 
-start_page_name = "Start.md"
+start_page_name = "Start"
+start_page_name_with_ext = start_page_name * ".md"
 
 # Delete previously generated pages
-rm(joinpath(@__DIR__, "index.md"), force=true)
-rm(pages, force=true, recursive=true)
+for file in filter(s -> s ∉ ["404.md", "config.md"], filter(endswith(".md"), readdir()))
+    rm(file)
+end
 
-# Create a dict with pages and their paths
+# Format the file name
+format(name::AbstractString)::String = replace(lowercase(name), ' ' => '-')
 
-paths = Dict{String, String}()
-
-for (root, dirs, files) in walkdir(md)
-    for file in files
-        name = replace(file, ".md" => "")
-        path = joinpath(root, file)
-
-        if file == start_page_name
-            paths[name] = "[$(name)](/)"
-        else
-            paths[name] =
-            "[$(name)](/pages/$(replace(lowercase(joinpath(relpath(root, md), name)), ' ' => '-')))"
-        end
+# Create a hyperlink for the reference
+function hyperlink(ref::AbstractString)::String
+    ref = chop(ref, head=2, tail=2)
+    if ref == start_page_name
+        return "[$(start_page_name)](/)"
+    else
+        return "[$(ref)](/$(format(ref)))"
     end
 end
 
@@ -36,22 +32,14 @@ for (root, dirs, files) in walkdir(md)
         content = read(path, String)
 
         # Replace hyperlinks with actual links
-        content = replace(
-            content,
-            r"\[\[[\w+\s*]+\]\]" => s -> paths[chop(s, head = 2, tail = 2)]
-        )
+        content = replace(content, r"\[\[[\w+\s*]+\]\]" => hyperlink)
 
-        rel_path = relpath(root, md)
-        out_path = joinpath(pages, replace(lowercase(rel_path), ' ' => '-'))
-
-        mkpath(out_path)
-
-        if file == start_page_name
+        if file == start_page_name_with_ext
             open(joinpath(@__DIR__, "index.md"), "w") do io
                 print(io, content)
             end
         else
-            open(joinpath(out_path, replace(lowercase(file), ' ' => '-')), "w") do io
+            open(joinpath(@__DIR__, format(file)), "w") do io
                 print(io, content)
             end
         end
