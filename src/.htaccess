@@ -1,4 +1,0 @@
-Options +FollowSymLinks -MultiViews
-
-RewriteEngine on
-RewriteRule ^oof$ index.html [L,NC]

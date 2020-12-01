@@ -1,4 +1,4 @@
-Section: [[Start]]
+Section: [[Home]]
 
 _Contains notes about uploading videos._
 

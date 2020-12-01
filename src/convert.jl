@@ -3,11 +3,15 @@
 
 md = joinpath(@__DIR__, "md")
 
-start_page_name = "Start"
+start_page_name = "Home"
 start_page_name_with_ext = start_page_name * ".md"
 
 # Delete previously generated pages
-for file in filter(s -> s ∉ ["404.md", "config.md"], filter(endswith(".md"), readdir()))
+standard_files = joinpath.(@__DIR__, ["404.md", "config.md"])
+for file in filter(
+        s -> endswith(s, ".md") && s ∉ standard_files,
+        readdir(@__DIR__, join=true)
+    )
     rm(file)
 end
 
