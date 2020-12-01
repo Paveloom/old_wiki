@@ -20,13 +20,12 @@ jobs:
       uses: julia-actions/setup-julia@latest
       with:
         version: 1.5
-    - name: Convert the pages
-      run: julia src/convert.jl
     - name: Optimize the site
       run: julia --project=. -e 'using Pkg; pkg"instantiate";
                                  using NodeJS;
                                  run(`$(npm_cmd()) install highlight.js`);
                                  using Franklin;
+                                 include("convert.jl");
                                  cd("src"); println("hey", "\n", pwd(), "\n", readdir()); optimize()'
     - name: Build and Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3
