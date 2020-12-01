@@ -1,2 +1,16 @@
 # User's Makefile(s)
 Makefile
+
+# Manifest files
+Manifest.toml
+
+# Generated site
+src/__site/
+
+# Generated pages
+src/pages
+*.md
+
+# Standard pages
+!src/404.md
+!src/config.md
