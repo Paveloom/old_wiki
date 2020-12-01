@@ -12,7 +12,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         persist-credentials: false
-    - name: Install python
+    - name: Install Python
       uses: actions/setup-python@v2
       with:
         python-version: '3.8'
@@ -21,14 +21,13 @@ jobs:
       with:
         version: 1.5
     - name: Convert the pages
-      run: |
-        julia src/convert.jl;
+      run: julia src/convert.jl
     - name: Optimize the site
       run: julia --project=. -e 'using Pkg; pkg"instantiate";
                                  using NodeJS;
                                  run(`$(npm_cmd()) install highlight.js`);
-                                 using Franklin;;
-                                 cd("src"); optimize()'
+                                 using Franklin;
+                                 cd("src"); println("hey", "\n", pwd(), "\n", readdir()); optimize()'
     - name: Build and Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3
       with:
