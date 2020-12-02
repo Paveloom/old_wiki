@@ -55,15 +55,15 @@ end
 
 # Add custom syntax highlighting for FFMPEG snippets
 function ffmpeg(snippet::AbstractString)::String
+
     # Define a snippet's class
     if count("\n", snippet) == 0
         class = ""
+        snippet = split(chop(snippet, head=10, tail=3), ' ')
     else
         class = "class=\"hljs ffmpeg\""
+        snippet = split(chop(snippet, head=10, tail=4), ' ')
     end
-
-    # Split the snippet into pieces
-    snippet = split(chop(snippet, head=10, tail=3), ' ')
 
     # Colors
     for (index, piece) in pairs(snippet)
@@ -108,6 +108,7 @@ function ffmpeg(snippet::AbstractString)::String
     ~~~
     <code $(class)>$(join(snippet, ' '))</code>
     ~~~"""
+
 end
 
 # Change the formatting
