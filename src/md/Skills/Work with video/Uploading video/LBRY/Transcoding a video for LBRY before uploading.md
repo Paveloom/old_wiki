@@ -3,7 +3,7 @@ Section: [[Uploading video]]
 The built-in video transcoding function in the LBRY desktop application starts the
 FFMPEG utility process with the following parameters:
 
-```bash
+```ffmpeg
 ffmpeg -i "$(path_to_original_file).ext" -y -c:s copy -c:d copy \
           -c:v libx264 -crf 24 -preset faster -pix_fmt yuv420p \
           -vf "scale=if(gte(iw\,ih)\,min(1920\,iw)\,-2):if(lt(iw\,ih)\,min(1920\,ih)\,-2)" \
@@ -13,38 +13,41 @@ ffmpeg -i "$(path_to_original_file).ext" -y -c:s copy -c:d copy \
 
 The meanings of the passed parameters:
 
-- `-c:s copy` and `-c:d copy` tell FFMPEG to copy subtitles and data, respectively.
-- `-c:v libx264 -crf 24 -preset faster -pix_fmt yuv420p` tell FFMPEG to transcode video
-  using the `H.264` codes with constant rate factor equal to 24, with the `faster` preset
-  and using the YUV color space with the `4:2:0` scheme for chroma subsampling.
-- `-vf "scale=if(gte(iw\,ih)\,min(1920\,iw)\,-2):if(lt(iw\,ih)\,min(1920\,ih)\,-2)"`
+- ```ffmpeg -c:s copy``` and ```ffmpeg -c:d copy``` tell FFMPEG to copy subtitles and data,
+  respectively.
+- ```ffmpeg -c:v libx264 -crf 24 -preset faster -pix_fmt yuv420p``` tell FFMPEG to transcode
+  video using the `H.264` codec with constant rate factor equal to 24, with the `faster`
+  preset and using the YUV color space with the `4:2:0` scheme for chroma subsampling.
+- ```ffmpeg -vf "scale=if(gte(iw\,ih)\,min(1920\,iw)\,-2):if(lt(iw\,ih)\,min(1920\,ih)\,-2)"```
   specifies that the height and width of the video cannot be greater than 1920 pixels,
   and both values must be a multiple of two.
-- `-maxrate 5500K -bufsize 5000K` specifies the maximum bitrate to be 5500 Kb/s with a
-  buffer equal to 5000 Kb/s.
-- `-movflags +faststart` tells FFMPEG to move the «moov atom» (the metadata) from the end
-  of the file to its beginning to improve playback in browsers.
-- `-c:a aac -b:a 160k` tells FFMPEG to transcode audio with bitrate equal to 160 kb/s.
+- ```ffmpeg -maxrate 5500K -bufsize 5000K``` specifies the maximum bitrate to be 5500 Kb/s
+  with a buffer equal to 5000 Kb/s.
+- ```ffmpeg -movflags +faststart``` tells FFMPEG to move the «moov atom» (the metadata)
+  from the end of the file to its beginning to improve playback in browsers.
+- ```ffmpeg -c:a aac -b:a 160k``` tells FFMPEG to transcode audio with bitrate equal to
+  160 kb/s.
 
-Option for transcoding video with a width of 1920 pixels, with an aspect ratio of 16:9,
-with increased bitrate and quality, with better compression:
+An alternative option for transcoding a horizontal video with increased bitrate and quality
+and better compression:
 
-```bash
+```ffmpeg
 ffmpeg -i "$(path_to_original_file).ext" -y -c:s copy -c:d copy \
           -c:v libx264 -crf 17 -preset slower -pix_fmt yuv420p \
           -maxrate 8M -bufsize 8M -movflags +faststart \
           -c:a aac -b:a 160k "$(path_to_original_file) (Transcoded).mp4"
 ```
 
-Optimal CRF values can be selected by performing tests on a sample of the target file with
-a faster preset. The average bitrate value in the transcoded test file should be close
-(on left side) to the targeted bitrate, but it should not be equal to it. The CRF value
-of 17 is sufficient to produce a video with an indistinguishable quality
-(using a slow preset).
+One may select optimal CRF values by performing tests on a sample of the target file with a
+faster preset. The average bitrate value in the transcoded test file should be close
+(on the left side) to the target bitrate, but it should not be equal to it. The CRF value
+of 17 is sufficient to produce a video with an indistinguishable quality (using a slow
+preset). Note that with a fixed CRF value, the target bitrate may not always be reached,
+and the encoder will use more bits if necessary.
 
 A sample can be cut from the source file like this:
 
-```bash
+```ffmpeg
 ffmpeg -i input.ext -ss 00:01:00 -to 00:02:00 -c copy sample.ext
 ```
 
