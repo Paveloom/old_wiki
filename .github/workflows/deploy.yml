@@ -32,7 +32,7 @@ jobs:
                                  using Franklin;
                                  cd("src");
                                  include("convert.jl");
-                                 optimize()'
+                                 optimize(minify=false)'
     - name: Build and Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3
       with:
