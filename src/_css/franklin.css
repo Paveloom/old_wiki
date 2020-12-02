@@ -301,10 +301,10 @@ body {
   word-break: break-word;
 }
 
-.franklin-content code.ffmpeg {
+.franklin-content .ffmpeg {
   display: block;
-  white-space: pre;
   padding: 1em;
+  white-space: pre;
 }
 
 /* .franklin-content code {
