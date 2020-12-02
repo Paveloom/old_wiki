@@ -25,8 +25,9 @@ jobs:
                                  using NodeJS;
                                  run(`$(npm_cmd()) install highlight.js`);
                                  using Franklin;
+                                 cd("src");
                                  include("convert.jl");
-                                 cd("src"); println("hey", "\n", pwd(), "\n", readdir()); optimize()'
+                                 println("hey", "\n", pwd(), "\n", readdir()); optimize()'
     - name: Build and Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3
       with:
