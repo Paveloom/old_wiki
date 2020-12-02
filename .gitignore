@@ -9,7 +9,7 @@ src/__site/
 
 # Generated pages
 src/pages
-*.md
+src/*.md
 
 # Standard pages
 !src/404.md
