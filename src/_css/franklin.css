@@ -303,8 +303,12 @@ body {
 
 .franklin-content code.ffmpeg {
   display: block;
-  padding: 2em;
+  padding: 1em;
   white-space: pre;
+}
+
+pre {
+  overflow-x: auto;
 }
 
 /* .franklin-content code {
