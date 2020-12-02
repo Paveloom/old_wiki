@@ -290,7 +290,7 @@ code {
   font-size: 100%;
   display: inline;
   overflow-x: auto;
-  padding: 0.09em 0.1em;
+  padding: 0.08em 0.1em;
   color: #333;
   background: #f8f8f8;
   line-height: 1.25em;
@@ -299,6 +299,10 @@ code {
   -webkit-box-shadow: inset 0 0 7px rgba(0, 0, 0, 0.04);
   box-shadow: inset 0 0 7px rgba(0, 0, 0, 0.04);
   word-break: break-word;
+}
+
+code.hljs.ffmpeg {
+  white-space: pre;
 }
 
 /* .franklin-content code {
