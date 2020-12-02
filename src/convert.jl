@@ -53,6 +53,7 @@ macro color_doubles(flag_color::String, argument_color::String, flags::String...
     )
 end
 
+# Add custom syntax highlighting for FFMPEG snippets
 function ffmpeg(snippet::AbstractString)::String
     # Define a snippet's class
     if count("\n", snippet) == 0
@@ -64,7 +65,7 @@ function ffmpeg(snippet::AbstractString)::String
     # Split the snippet into pieces
     snippet = split(chop(snippet, head=10, tail=3), ' ')
 
-    # Executable
+    # Colors
     for (index, piece) in pairs(snippet)
         @color_ones "#721121" "ffmpeg"
         @color_ones "#885A89" "-y"
