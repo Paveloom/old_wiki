@@ -41,7 +41,7 @@ ffmpeg -i "$(path_to_original_file).ext" -y -c:s copy -c:d copy \
 
 One may select optimal CRF values by performing tests on a sample of the target file with a
 faster preset. The average bitrate of the transcoded test file should be close (on the left
-side) to the target bitrate. The CRF value of 17 is sufficient to produce a video with an
+side) to the target bitrate. The CRF value of 17 is sufficient to produce a video with
 indistinguishable quality (using a slow preset). Note that with a fixed CRF value, the
 target bitrate may not always be reached, and the encoder will use more bits if necessary.
 
