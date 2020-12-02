@@ -301,9 +301,9 @@ body {
   word-break: break-word;
 }
 
-.franklin-content .ffmpeg {
+.franklin-content code.ffmpeg {
   display: block;
-  padding: 1em;
+  padding: 2em;
   white-space: pre;
 }
 
