@@ -290,7 +290,7 @@ code {
   font-size: 100%;
   display: inline;
   overflow-x: auto;
-  padding: 0.08em 0.1em;
+  padding: 0.07em 0.1em;
   color: #333;
   background: #f8f8f8;
   line-height: 1.25em;
@@ -301,8 +301,10 @@ code {
   word-break: break-word;
 }
 
-code.hljs.ffmpeg {
+.ffmpeg {
+  display: block;
   white-space: pre;
+  padding: 1em;
 }
 
 /* .franklin-content code {

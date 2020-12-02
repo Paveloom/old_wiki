@@ -61,7 +61,7 @@ function ffmpeg(snippet::AbstractString)::String
         class = ""
         snippet = split(chop(snippet, head=10, tail=3), ' ')
     else
-        class = "class=\"hljs ffmpeg\""
+        class = "class=\"ffmpeg\""
         snippet = split(chop(snippet, head=10, tail=4), ' ')
     end
 
