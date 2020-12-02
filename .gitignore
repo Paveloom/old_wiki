@@ -8,7 +8,6 @@ Manifest.toml
 src/__site/
 
 # Generated pages
-src/pages
 src/*.md
 
 # Standard pages
