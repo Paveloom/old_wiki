@@ -284,7 +284,7 @@ body {
 
 /* CODE & HIGHLIGHT.JS */
 
-code {
+.franklin-content code {
   font-family: Inconsolata, monospace;
   font-weight: 400;
   font-size: 100%;
@@ -301,7 +301,7 @@ code {
   word-break: break-word;
 }
 
-.ffmpeg {
+.franklin-content code.ffmpeg {
   display: block;
   white-space: pre;
   padding: 1em;
