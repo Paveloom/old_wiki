@@ -28,6 +28,88 @@ function hyperlink(ref::AbstractString)::String
     end
 end
 
+# Color a single piece
+macro color_ones(color::String, pieces::String...)
+    return esc(
+        quote
+            if piece in $(pieces)
+                snippet[index] = $("<span style=\"color:$(color)\">") * piece * "</span>"
+            end
+        end
+    )
+end
+
+# Color a paired piece
+macro color_doubles(flag_color::String, argument_color::String, flags::String...)
+    return esc(
+        quote
+            if piece in $(flags)
+                snippet[index] =
+                $("<span style=\"color:$(flag_color)\">") * piece * "</span>"
+                snippet[index+1] =
+                $("<span style=\"color:$(argument_color)\">") * snippet[index+1] * "</span>"
+            end
+        end
+    )
+end
+
+# Add custom syntax highlighting for FFMPEG snippets
+function ffmpeg(snippet::AbstractString)::String
+    # Define a snippet's class
+    if count("\n", snippet) == 0
+        class = ""
+    else
+        class = "class=\"hljs ffmpeg\""
+    end
+
+    # Split the snippet into pieces
+    snippet = split(chop(snippet, head=10, tail=3), ' ')
+
+    # Colors
+    for (index, piece) in pairs(snippet)
+        @color_ones "#721121" "ffmpeg"
+        @color_ones "#885A89" "-y"
+        @color_doubles "#885A89" "#48A9A6" "-i"
+        @color_doubles(
+            "#885A89",
+            "#537A5A",
+            "-b:a",
+            "-c",
+            "-c:s",
+            "-c:d",
+            "-c:v",
+            "-c:a",
+            "-crf",
+            "-preset",
+            "-pix_fmt",
+            "-vf",
+            "-maxrate",
+            "-bufsize",
+            "-movflags",
+            "-ss",
+            "-to",
+        )
+    end
+
+    # Highlight the output file
+
+    i = lastindex(snippet)
+    if endswith(snippet[end], '\"')
+        while !startswith(snippet[i], '\"')
+            i -= 1
+        end
+    end
+
+    for (index, piece) in pairs(snippet[i:end])
+        snippet[end-index+1] = "<span style=\"color:#48A9A6\">$(piece)</span>"
+    end
+
+    return """
+    ~~~
+    <code $(class)>$(join(snippet, ' '))</code>
+    ~~~"""
+end
+
 # Change the formatting
 for (root, dirs, files) in walkdir(md)
     for file in files
@@ -45,11 +127,15 @@ for (root, dirs, files) in walkdir(md)
         # Replace hyperlinks with actual links
         content = replace(content, r"\[\[[\w+\s*]+\]\]" => hyperlink)
 
+        # Add custom syntax highlighting for FFMPEG code snippets
+        content = replace(content, r"```ffmpeg.*?```"s => ffmpeg)
+
         if file == start_page_name_with_ext
             # Add the metadata
             content = """
             @def title = "Pensieve"
             @def authors = "Pavel Sobolev"
+            @def hascode = true
 
             """ * content
 
@@ -61,6 +147,7 @@ for (root, dirs, files) in walkdir(md)
             content = """
             @def title = "$(name)"
             @def authors = "Pavel Sobolev"
+            @def hascode = true
 
             """ * content
 
