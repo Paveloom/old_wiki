@@ -100,7 +100,7 @@ function ffmpeg(snippet::AbstractString)::String
         end
     end
 
-    for (index, piece) in pairs(snippet[i:end])
+    for (index, piece) in pairs(snippet[end:-1:i])
         snippet[end-index+1] = "<span style=\"color:#48A9A6\">$(piece)</span>"
     end
 
