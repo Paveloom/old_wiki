@@ -1,17 +1,22 @@
-name: Build and Deploy
+name: Build & Deploy
 on:
   push:
     branches:
       - master
 jobs:
   build-and-deploy:
+    name: Build & Deploy
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v2
       with:
         persist-credentials: false
-    - name: Install python
+    - name: Install SSH Client
+      uses: webfactory/ssh-agent@v0.4.1
+      with:
+        ssh-private-key: ${{ secrets.DEPLOY_KEY_PRIV }}
+    - name: Install Python
       uses: actions/setup-python@v2
       with:
         python-version: '3.8'
@@ -19,17 +24,18 @@ jobs:
       uses: julia-actions/setup-julia@latest
       with:
         version: 1.5
-    - name: Convert the pages
-      run: |
-        julia src/convert.jl;
     - name: Optimize the site
       run: julia --project=. -e 'using Pkg; pkg"instantiate";
-                                 using NodeJS; using Franklin;
+                                 using NodeJS;
                                  run(`$(npm_cmd()) install highlight.js`);
-                                 cd("src"); optimize()'
+                                 using Franklin;
+                                 cd("src");
+                                 include("convert.jl");
+                                 optimize()'
     - name: Build and Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3
       with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SSH: true
         BRANCH: gh-pages
-        FOLDER: __site
+        FOLDER: src/__site
+        SINGLE_COMMIT: true
