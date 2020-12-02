@@ -290,7 +290,7 @@ code {
   font-size: 100%;
   display: inline;
   overflow-x: auto;
-  padding: 0.1em;
+  padding: 0.09em 0.1em;
   color: #333;
   background: #f8f8f8;
   line-height: 1.25em;
