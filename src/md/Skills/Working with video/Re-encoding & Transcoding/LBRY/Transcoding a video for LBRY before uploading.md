@@ -1,4 +1,4 @@
-Section: [[Uploading video]]
+Section: [[Re-encoding & Transcoding]]
 
 The built-in video transcoding function in the LBRY desktop application starts the
 FFMPEG utility process with the following parameters:

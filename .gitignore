@@ -13,3 +13,6 @@ src/*.md
 # Standard pages
 !src/404.md
 !src/config.md
+
+# Obsidian's config directory
+src/md/.obsidian
