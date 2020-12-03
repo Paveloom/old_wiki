@@ -16,7 +16,12 @@ for file in filter(
 end
 
 # Format the file name
-format(name::AbstractString)::String = replace(lowercase(name), ' ' => '-')
+format(name::AbstractString)::String = replace(
+    replace(
+        lowercase(name), ' ' => '-'
+    ),
+    "&" => "and",
+)
 
 # Create a hyperlink for the reference
 function hyperlink(ref::AbstractString)::String
@@ -126,7 +131,7 @@ for (root, dirs, files) in walkdir(md)
         """ * content
 
         # Replace hyperlinks with actual links
-        content = replace(content, r"\[\[[\w+\s*]+\]\]" => hyperlink)
+        content = replace(content, r"\[\[.*\]\]" => hyperlink)
 
         # Add custom syntax highlighting for FFMPEG code snippets
         content = replace(content, r"```ffmpeg.*?```"s => ffmpeg)
