@@ -301,6 +301,13 @@ body {
   word-break: break-word;
 }
 
+.franklin-content code.hljs {
+  display: block;
+  padding: 1em;
+  white-space: pre;
+  word-break: normal;
+}
+
 .franklin-content code.ffmpeg {
   display: block;
   padding: 1em;
