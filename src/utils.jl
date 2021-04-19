@@ -1,7 +1,7 @@
 # Load fonts for the code depending on the runtime environment
 function hfun_load_fonts()
     if get(ENV, "GITHUB_ACTIONS", "false") == "true"
-        prepath = "/wiki"
+        prepath = "/old_wiki"
     else
         prepath = ""
     end
