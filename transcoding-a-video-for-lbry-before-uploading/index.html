@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <style>
+  @font-face {
+      font-family: Inconsolata;
+      src: url("/old_wiki/assets/fonts/Inconsolata-Regular.ttf") format('truetype');
+      font-weight: 400;
+      font-style: normal;
+  }
+
+  @font-face {
+      font-family: Inconsolata;
+      src: url("/old_wiki/assets/fonts/Inconsolata-Medium.ttf") format('truetype');
+      font-weight: 500;
+      font-style: normal;
+  }
+
+  @font-face {
+      font-family: Inconsolata;
+      src: url("/old_wiki/assets/fonts/Inconsolata-SemiBold.ttf") format('truetype');
+      font-weight: 600;
+      font-style: normal;
+  }
+
+  @font-face {
+      font-family: Inconsolata;
+      src: url("/old_wiki/assets/fonts/Inconsolata-Bold.ttf") format('truetype');
+      font-weight: 700;
+      font-style: normal;
+  }
+</style>
+
+   <link rel="stylesheet" href="/old_wiki/libs/highlight/highlight.custom.css">
+ 
+  <link rel="stylesheet" href="/old_wiki/css/franklin.css">
+  <link rel="stylesheet" href="/old_wiki/css/basic.css">
+   <title>Transcoding a video for LBRY before uploading</title> 
+</head>
+<body>
+  <header>
+<div class="blog-name"><a href="/old_wiki/">Pensieve</a></div>
+</header>
+
+
+<!-- Content appended here -->
+<div class="franklin-content"><h1 id="transcoding_a_video_for_lbry_before_uploading"><a href="#transcoding_a_video_for_lbry_before_uploading" class="header-anchor">Transcoding a video for LBRY before uploading</a></h1>
+<p>Section: <a href="/old_wiki/re-encoding-and-transcoding">Re-encoding &amp; Transcoding</a></p>
+<p>The built-in video transcoding function in the LBRY desktop application starts the FFMPEG utility process with the following parameters:</p>
+
+<code class="ffmpeg"><span style="color:#721121">ffmpeg</span> <span style="color:#885A89">-i</span> <span style="color:#48A9A6">"$(path_to_original_file).ext"</span> <span style="color:#885A89">-y</span> <span style="color:#885A89">-c:s</span> <span style="color:#537A5A">copy</span> <span style="color:#885A89">-c:d</span> <span style="color:#537A5A">copy</span> \
+          <span style="color:#885A89">-c:v</span> <span style="color:#537A5A">libx264</span> <span style="color:#885A89">-crf</span> <span style="color:#537A5A">24</span> <span style="color:#885A89">-preset</span> <span style="color:#537A5A">faster</span> <span style="color:#885A89">-pix_fmt</span> <span style="color:#537A5A">yuv420p</span> \
+          <span style="color:#885A89">-vf</span> <span style="color:#537A5A">"scale=if(gte(iw\,ih)\,min(1920\,iw)\,-2):if(lt(iw\,ih)\,min(1920\,ih)\,-2)"</span> \
+          <span style="color:#885A89">-maxrate</span> <span style="color:#537A5A">5500K</span> <span style="color:#885A89">-bufsize</span> <span style="color:#537A5A">5000K</span> <span style="color:#885A89">-movflags</span> <span style="color:#537A5A">+faststart</span> \
+          <span style="color:#885A89">-c:a</span> <span style="color:#537A5A">aac</span> <span style="color:#885A89">-b:a</span> <span style="color:#537A5A">160k</span> <span style="color:#48A9A6">"$(path_to_original_file)_fixed.mp4"</span></code>
+
+<p>The meanings of the passed parameters:</p>
+<ul>
+<li><p>
+<code ><span style="color:#885A89">-c:s</span> <span style="color:#48A9A6"><span style="color:#537A5A">copy</span></span></code>
+ and 
+<code ><span style="color:#885A89">-c:d</span> <span style="color:#48A9A6"><span style="color:#537A5A">copy</span></span></code>
+ tell FFMPEG to copy subtitles and data, respectively.</p>
+</li>
+<li><p>
+<code ><span style="color:#885A89">-c:v</span> <span style="color:#537A5A">libx264</span> <span style="color:#885A89">-crf</span> <span style="color:#537A5A">24</span> <span style="color:#885A89">-preset</span> <span style="color:#537A5A">faster</span> <span style="color:#885A89">-pix_fmt</span> <span style="color:#48A9A6"><span style="color:#537A5A">yuv420p</span></span></code>
+ tells FFMPEG to transcode the video using the <code>H.264</code> codec with constant rate factor equal to 24, with the <code>faster</code> preset and using the YUV color space with the <code>4:2:0</code> scheme for chroma subsampling.</p>
+</li>
+<li><p>
+<code ><span style="color:#885A89">-vf</span> <span style="color:#48A9A6"><span style="color:#537A5A">"scale=if(gte(iw\,ih)\,min(1920\,iw)\,-2):if(lt(iw\,ih)\,min(1920\,ih)\,-2)"</span></span></code>
+ specifies that the height and width of the video cannot be greater than 1920 pixels, and both values must be a multiple of two.</p>
+</li>
+<li><p>
+<code ><span style="color:#885A89">-maxrate</span> <span style="color:#537A5A">5500K</span> <span style="color:#885A89">-bufsize</span> <span style="color:#48A9A6"><span style="color:#537A5A">5000K</span></span></code>
+ specifies the maximum bitrate to be 5500 Kb/s with a buffer equal to 5000 Kb/s.</p>
+</li>
+<li><p>
+<code ><span style="color:#885A89">-movflags</span> <span style="color:#48A9A6"><span style="color:#537A5A">+faststart</span></span></code>
+ tells FFMPEG to move the «moov atom» &#40;the metadata&#41; from the end of the file to its beginning to improve playback in browsers.</p>
+</li>
+<li><p>
+<code ><span style="color:#885A89">-c:a</span> <span style="color:#537A5A">aac</span> <span style="color:#885A89">-b:a</span> <span style="color:#48A9A6"><span style="color:#537A5A">160k</span></span></code>
+ tells FFMPEG to transcode the audio with bitrate equal to 160 kb/s.</p>
+</li>
+</ul>
+<p>An alternative option for transcoding a horizontal video with increased bitrate and quality and better compression:</p>
+
+<code class="ffmpeg"><span style="color:#721121">ffmpeg</span> <span style="color:#885A89">-i</span> <span style="color:#48A9A6">"$(path_to_original_file).ext"</span> <span style="color:#885A89">-y</span> <span style="color:#885A89">-c:s</span> <span style="color:#537A5A">copy</span> <span style="color:#885A89">-c:d</span> <span style="color:#537A5A">copy</span> \
+          <span style="color:#885A89">-c:v</span> <span style="color:#537A5A">libx264</span> <span style="color:#885A89">-crf</span> <span style="color:#537A5A">17</span> <span style="color:#885A89">-preset</span> <span style="color:#537A5A">slower</span> <span style="color:#885A89">-pix_fmt</span> <span style="color:#537A5A">yuv420p</span> \
+          <span style="color:#885A89">-maxrate</span> <span style="color:#537A5A">8M</span> <span style="color:#885A89">-bufsize</span> <span style="color:#537A5A">8M</span> <span style="color:#885A89">-movflags</span> <span style="color:#537A5A">+faststart</span> \
+          <span style="color:#885A89">-c:a</span> <span style="color:#537A5A">aac</span> <span style="color:#885A89">-b:a</span> <span style="color:#537A5A">160k</span> <span style="color:#48A9A6">"$(path_to_original_file)</span> <span style="color:#48A9A6">(Transcoded).mp4"</span></code>
+
+<p>One may select optimal CRF values by performing tests on a sample of the target file with a faster preset. The average bitrate of the transcoded test file should be close &#40;on the left side&#41; to the target bitrate. The CRF value of 17 is sufficient to produce a video with indistinguishable quality &#40;using a slow preset&#41;. Note that with a fixed CRF value, the target bitrate may not always be reached, and the encoder will use more bits if necessary.</p>
+<p>A sample can be cut from the source file like this:</p>
+
+<code class="ffmpeg"><span style="color:#721121">ffmpeg</span> <span style="color:#885A89">-i</span> <span style="color:#48A9A6">input.ext</span> <span style="color:#885A89">-ss</span> <span style="color:#537A5A">00:01:00</span> <span style="color:#885A89">-to</span> <span style="color:#537A5A">00:02:00</span> <span style="color:#885A89">-c</span> <span style="color:#537A5A">copy</span> <span style="color:#48A9A6">sample.ext</span></code>
+
+<p>References:</p>
+<ul>
+<li><p><a href="https://trac.ffmpeg.org/wiki/Encode/H.264">Guide for encoding video using FFMPEG</a></p>
+</li>
+<li><p><a href="https://trac.ffmpeg.org/wiki/Encode/AAC">Guide for encoding audio using FFMPEG</a></p>
+</li>
+<li><p><a href="https://trac.ffmpeg.org/wiki/Scaling">Guide for scaling using FFMPEG</a></p>
+</li>
+<li><p><a href="https://trac.ffmpeg.org/wiki/Limiting&#37;20the&#37;20output&#37;20bitrate">Guide for limiting bitrate using FFMPEG</a></p>
+</li>
+<li><p><a href="https://ffmpeg.org/ffmpeg-formats.html#Options-9">Options for MP4 containers</a></p>
+</li>
+<li><p><a href="https://slhck.info/articles/rate-control">Article about rate control modes</a></p>
+</li>
+<li><p><a href="https://slhck.info/articles/crf">Article about CRF</a></p>
+</li>
+</ul>
+<div class="page-foot">
+  <div class="copyright">
+    &copy; Pavel Sobolev. Last modified: April 19, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+  </div>
+</div>
+</div><!-- CONTENT ENDS HERE -->
+    
+    
+        
+
+
+    
+  </body>
+</html>

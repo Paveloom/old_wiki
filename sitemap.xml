@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+<url>
+    <loc>https://paveloom.github.io/old_wiki/404/index.html</loc>
+    <lastmod>2021-04-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
+    <loc>https://paveloom.github.io/old_wiki/setting-up-the-environment/index.html</loc>
+    <lastmod>2021-04-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
+    <loc>https://paveloom.github.io/old_wiki/index.html</loc>
+    <lastmod>2021-04-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
+    <loc>https://paveloom.github.io/old_wiki/re-encoding-and-transcoding/index.html</loc>
+    <lastmod>2021-04-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
+    <loc>https://paveloom.github.io/old_wiki/how-to-ssh-into-wsl-2/index.html</loc>
+    <lastmod>2021-04-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
+    <loc>https://paveloom.github.io/old_wiki/transcoding-a-video-for-lbry-before-uploading/index.html</loc>
+    <lastmod>2021-04-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+</urlset>

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <style>
+  @font-face {
+      font-family: Inconsolata;
+      src: url("/old_wiki/assets/fonts/Inconsolata-Regular.ttf") format('truetype');
+      font-weight: 400;
+      font-style: normal;
+  }
+
+  @font-face {
+      font-family: Inconsolata;
+      src: url("/old_wiki/assets/fonts/Inconsolata-Medium.ttf") format('truetype');
+      font-weight: 500;
+      font-style: normal;
+  }
+
+  @font-face {
+      font-family: Inconsolata;
+      src: url("/old_wiki/assets/fonts/Inconsolata-SemiBold.ttf") format('truetype');
+      font-weight: 600;
+      font-style: normal;
+  }
+
+  @font-face {
+      font-family: Inconsolata;
+      src: url("/old_wiki/assets/fonts/Inconsolata-Bold.ttf") format('truetype');
+      font-weight: 700;
+      font-style: normal;
+  }
+</style>
+
+   <link rel="stylesheet" href="/old_wiki/libs/highlight/highlight.custom.css">
+ 
+  <link rel="stylesheet" href="/old_wiki/css/franklin.css">
+  <link rel="stylesheet" href="/old_wiki/css/basic.css">
+   <title>How to SSH into WSL 2</title> 
+</head>
+<body>
+  <header>
+<div class="blog-name"><a href="/old_wiki/">Pensieve</a></div>
+</header>
+
+
+<!-- Content appended here -->
+<div class="franklin-content"><h1 id="how_to_ssh_into_wsl_2"><a href="#how_to_ssh_into_wsl_2" class="header-anchor">How to SSH into WSL 2</a></h1>
+<p>Section: <a href="/old_wiki/setting-up-the-environment">Setting up the environment</a></p>
+<p>This guide is explicitly for the second version of WSL. All the following actions should be performed inside a WSL environment until told otherwise.</p>
+<p>First, make sure you have the <a href="https://packages.ubuntu.com/focal/ssh"><code>ssh</code></a> package installed.</p>
+<p>Then visit the configuration file of your SSH server:</p>
+<pre><code class="bash hljs">sudo nano /etc/ssh/sshd_config</code></pre>
+<p>There are two things you&#39;ll need to change here. First, the port the SSH server will use. That&#39;s because the default port used is <code>22</code>, which is the same the host system uses for its SSH. You can change it for something else, <code>2222</code>, for example. Create or alter the line with the following content:</p>
+<pre><code class="bash hljs">Port 2222</code></pre>
+<p>Second, you&#39;ll need to enable authentication. For that, you may use passwords or keys. Enable the preferred way &#40;or both&#41; by creating or altering the lines with the following contents:</p>
+<pre><code class="bash hljs">PasswordAuthentication yes
+PubkeyAuthentication yes</code></pre>
+<p>Save the file and restart the SSH server:</p>
+<pre><code class="bash hljs">sudo service ssh --full-restart</code></pre>
+<p>Now you should be able to SSH into your WSL environment from the host system. Note, though, that you&#39;ll need to use your local IP for that, and not <code>localhost</code> or <code>127.0.0.1</code>. To get it, you should run <code>ifconfig</code> inside a WSL environment you want to connect to and copy the IP address from the <code>inet</code> line in the <code>eth0</code> section. After that, running the following on the host system:</p>
+<pre><code class="bash hljs">ssh user@ip -p 2222</code></pre>
+<p>should give a prompt to your shell. Note that this IP will change after restarting the WSL environment.</p>
+<div class="page-foot">
+  <div class="copyright">
+    &copy; Pavel Sobolev. Last modified: April 19, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+  </div>
+</div>
+</div><!-- CONTENT ENDS HERE -->
+    
+    
+        
+
+
+    
+  </body>
+</html>

@@ -1,0 +1,4 @@
+Sitemap: https://paveloom.github.io/old_wiki/sitemap.xml
+
+User-agent: *
+Disallow:
